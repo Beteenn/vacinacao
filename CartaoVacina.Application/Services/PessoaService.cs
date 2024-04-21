@@ -19,5 +19,6 @@ public class PessoaService : IPessoaService
         var pessoa = Pessoa.Criar(request.Nome);
 
         await _pessoaRepository.AddAsync(pessoa);
+        await _pessoaRepository.UnityOfWork.SaveChangesAsync();
     }
 }
