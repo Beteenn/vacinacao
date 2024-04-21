@@ -17,10 +17,12 @@ builder.Services.AddDbContext<CartaoVacinaContext>(opts => opts.UseSqlServer(con
 // Add services to the container.
 
 builder.Services.AddScoped<IPessoaService, PessoaService>();
+builder.Services.AddScoped<IVacinaService, VacinaService>();
 
 // Adicionar Repositorios
 
 builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
+builder.Services.AddScoped<IVacinaRepository, VacinaRepository>();
 
 
 builder.Services.AddControllers();
