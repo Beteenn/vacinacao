@@ -3,6 +3,7 @@
 public class Pessoa : Entity
 {
     public string Nome { get; private set; }
+    public CardenetaVacina CardenetaVacina { get; set; }
 
     private Pessoa() { }
 
@@ -11,8 +12,16 @@ public class Pessoa : Entity
         Nome = nome;
     }
 
-    public static Pessoa Criar(string nome)
+    public static Pessoa Criar(string nome, IEnumerable<Vacina> vacinas)
     {
-        return new Pessoa(nome);
+        var pessoa = new Pessoa(nome);
+        pessoa.AdicionarCardeneta(vacinas);
+
+        return pessoa;
+    }
+
+    private void AdicionarCardeneta(IEnumerable<Vacina> vacinas)
+    {
+        CardenetaVacina = CardenetaVacina.Criar(this, vacinas);
     }
 }

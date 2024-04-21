@@ -1,4 +1,6 @@
-﻿namespace CartaoVacina.Core.Models.Responses.Pessoa;
+﻿using CartaoVacina.Core.Models.Responses.Vacina;
 
-public record ConsultarPessoaResponse(long Id, string Nome);
+namespace CartaoVacina.Core.Models.Responses.Pessoa;
+
+public record ConsultarPessoaResponse(long Id, string Nome, ConsultaCardenetaVacinaResponse? Cardeneta);
 

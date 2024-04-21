@@ -12,6 +12,10 @@ public sealed class PessoaRepository : Repository<Pessoa>, IPessoaRepository
 
     public async Task<IEnumerable<Pessoa>> ListarPessoas()
     {
-        return await _context.Pessoas.ToListAsync();
+        return await _context.Pessoas
+            .Include(p => p.CardenetaVacina)
+                .ThenInclude(c => c.Vacinas)
+                    .ThenInclude(c => c.Vacina)
+            .ToListAsync();
     }
 }
