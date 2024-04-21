@@ -12,7 +12,7 @@ public class Repository<T> : IRepository<T> where T : Entity
 
     public Repository(CartaoVacinaContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException();
     }
 
     public async Task AddAsync(T entidade)

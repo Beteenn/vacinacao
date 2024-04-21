@@ -15,6 +15,14 @@ public class PessoaController : ControllerBase
         _pessoaService = pessoaService ?? throw new ArgumentNullException();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> ListarPessoas()
+    {
+        var resultado = await _pessoaService.ListarPessoas();
+
+        return Ok(resultado);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CriarPessoa(CriarPessoaRequest request)
     {
