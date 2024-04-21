@@ -6,6 +6,7 @@ public sealed class VacinaCardenetaVacina : Entity
     public long CardenetaId { get; private set; }
     public Vacina Vacina { get; private set; }
     public long VacinaId { get; private set; }
+    public ICollection<DoseVacinaCardeneta> Doses { get; private set; }
 
     private VacinaCardenetaVacina() { }
 
