@@ -11,6 +11,7 @@ public sealed class CartaoVacinaContext : DbContext, IUnitOfWork
 
     // DbSets
     public DbSet<Pessoa> Pessoas { get; set; }
+    public DbSet<Vacina> Vacinas { get; set; }
 
     // Aplica todos os mappings da aplicacao
     protected override void OnModelCreating(ModelBuilder builder)
