@@ -1,6 +1,8 @@
 ﻿using CartaoVacina.Core.Interfaces.Services;
 using CartaoVacina.Core.Models.Requests.Pessoa;
+using CartaoVacina.Core.Models.Responses.Pessoa;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CartaoVacina.API.Controllers;
 
@@ -16,6 +18,8 @@ public class PessoaController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(ConsultarPessoaResponse[]), StatusCodes.Status200OK)]
+    [SwaggerOperation(Summary = "Listar pessoas cadastradas.")]
     public async Task<IActionResult> ListarPessoas()
     {
         var resultado = await _pessoaService.ListarPessoas();
@@ -24,6 +28,8 @@ public class PessoaController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [SwaggerOperation(Summary = "Cadastra uma nova pessoa.")]
     public async Task<IActionResult> CriarPessoa(CriarPessoaRequest request)
     {
         await _pessoaService.CriarPessoa(request);

@@ -4,6 +4,7 @@ using CartaoVacina.Core.Interfaces.Services;
 using CartaoVacina.DataAccess.Persistence;
 using CartaoVacina.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,17 @@ builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.EnableAnnotations();
+
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Cartao Vacina - Api",
+        Description = "API para gerenciamento de Cartoes de Vacina.",
+        Version = "v1"
+    });
+});
 
 var app = builder.Build();
 
