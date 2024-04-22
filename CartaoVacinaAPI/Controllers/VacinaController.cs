@@ -1,7 +1,6 @@
 ﻿using CartaoVacina.Core.Interfaces.Services;
 using CartaoVacina.Core.Models.Requests.Vacina;
 using CartaoVacina.Core.Models.Responses.Vacina;
-using CartaoVacina.Core.Results;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -35,14 +34,5 @@ public class VacinaController : Controller
     public async Task<IActionResult> CriarVacina(CriarVacinaRequest request)
     {
         return TratarResultado(await _vacinaService.Criar(request));
-    }
-
-    [HttpPost("aplicar-dose")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-    [SwaggerOperation(Summary = "Aplica uma nova dose da vacina.")]
-    public async Task<IActionResult> AplicarDose(AplicarNovaDoseRequest request)
-    {
-        return TratarResultado(await _vacinaService.AplicarDose(request));
     }
 }

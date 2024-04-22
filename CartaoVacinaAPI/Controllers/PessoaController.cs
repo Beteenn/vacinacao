@@ -29,18 +29,9 @@ public class PessoaController : Controller
         return TratarResultado(await _pessoaService.ListarPessoas());
     }
 
-    [HttpGet("caderneta/{pessoaId}")]
-    [ProducesResponseType(typeof(ConsultarPessoaResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [SwaggerOperation(Summary = "Obter caderneta por pessoa.")]
-    public async Task<IActionResult> ObterCadernetaPorPessoaId(long pessoaId)
-    {
-        return TratarResultado(await _pessoaService.ObterCadernetaPorPessoaId(pessoaId));
-    }
-
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [SwaggerOperation(Summary = "Cadastra uma nova pessoa.")]
+    [SwaggerOperation(Summary = "Cadastra uma nova pessoa com uma caderneta de vacina.")]
     public async Task<IActionResult> CriarPessoa(CriarPessoaRequest request)
     {
         return TratarResultado(await _pessoaService.CriarPessoa(request));
@@ -53,14 +44,5 @@ public class PessoaController : Controller
     public async Task<IActionResult> DeletarPessoa(long pessoaId)
     {
         return TratarResultado(await _pessoaService.DeletarPessoa(pessoaId));
-    }
-
-    [HttpDelete("{pessoaId}/dose/{doseId}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
-    [SwaggerOperation(Summary = "Deletar uma dose aplicada.")]
-    public async Task<IActionResult> DeletarDose(long pessoaId, long doseId)
-    {
-        return TratarResultado(await _pessoaService.DeletarDose(pessoaId, doseId));
     }
 }
