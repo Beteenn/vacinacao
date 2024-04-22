@@ -8,4 +8,13 @@ public sealed class DoseVacinaCardeneta : Entity
     public DateTime DataAplicacao { get; private set; }
 
     private DoseVacinaCardeneta() { }
+
+    public DoseVacinaCardeneta(int numeroDose, DateTime dataAplicacao)
+    {
+        NumeroDose = numeroDose;
+        DataAplicacao = dataAplicacao;
+    }
+
+    public static DoseVacinaCardeneta Create(int numeroDose, DateTime dataAplicacao)
+        => new(numeroDose, dataAplicacao);
 }

@@ -1,4 +1,6 @@
-﻿namespace CartaoVacina.Core.Entities;
+﻿using CartaoVacina.Core.Results;
+
+namespace CartaoVacina.Core.Entities;
 
 public sealed class CardenetaVacina : Entity
 {
@@ -16,4 +18,16 @@ public sealed class CardenetaVacina : Entity
 
     public static CardenetaVacina Criar(Pessoa pessoa, IEnumerable<Vacina> vacinas)
         => new (pessoa, vacinas);
+
+    public Result AplicarDose(long vacinaId, int numeroDose, DateTime dataAplicacao)
+    {
+        var vacina = Vacinas.FirstOrDefault(x => x.VacinaId == vacinaId);
+
+        if (vacina == null)
+            return Result.Fail("Vacina não encontrada");
+
+        var doseAplicada = vacina.AplicarDose(numeroDose, dataAplicacao);
+
+        return doseAplicada;
+    }
 }

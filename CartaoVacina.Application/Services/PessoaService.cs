@@ -26,7 +26,12 @@ public class PessoaService : IPessoaService
         return pessoas.Select(pessoa =>
         {
             var vacinasReponse = pessoa.CardenetaVacina.Vacinas
-                .Select(v => new ConsultaVacinaResponse(v.Vacina.Id, v.Vacina.Nome, v.Vacina.QuantidadeDoses, v.Vacina.QuantidadeReforcos));
+                .Select(v =>
+                {
+                    var dosesResponse = v.Doses.Select(d => new ConsultaDoseAplicadaResponse(d.NumeroDose, d.DataAplicacao)).ToArray();
+
+                    return new ConsultaVacinaResponse(v.Vacina.Id, v.Vacina.Nome, v.Vacina.QuantidadeDoses, v.Vacina.QuantidadeReforcos, dosesResponse);
+                });
 
             var cardeneta = new ConsultaCardenetaVacinaResponse(pessoa.CardenetaVacina.Id, vacinasReponse.ToArray());
 
