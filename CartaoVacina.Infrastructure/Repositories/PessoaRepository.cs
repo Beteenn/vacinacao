@@ -14,10 +14,8 @@ public sealed class PessoaRepository : Repository<Pessoa>, IPessoaRepository
     {
         return await _context.Pessoas
             .Include(p => p.CardenetaVacina)
-                .ThenInclude(c => c.Vacinas)
-                            .ThenInclude(c => c.Vacina)
-            .Include(p => p.CardenetaVacina.Vacinas)
-                .ThenInclude(c => c.Doses)
+                .ThenInclude(c => c.Vacinacoes)
+                    .ThenInclude(v => v.Vacina)
             .FirstOrDefaultAsync(p => p.Id == pessoaId);
     }
 
@@ -25,10 +23,6 @@ public sealed class PessoaRepository : Repository<Pessoa>, IPessoaRepository
     {
         return await _context.Pessoas
             .Include(p => p.CardenetaVacina)
-                .ThenInclude(c => c.Vacinas)
-                    .ThenInclude(c => c.Vacina)
-            .Include(p => p.CardenetaVacina.Vacinas)
-                .ThenInclude(c => c.Doses)
             .AsNoTracking()
             .ToListAsync();
     }

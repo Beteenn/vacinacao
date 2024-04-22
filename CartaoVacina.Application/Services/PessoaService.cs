@@ -50,15 +50,20 @@ public class PessoaService : IPessoaService
         if (pessoa == null)
             return Result<ConsultarPessoaResponse>.Success(null);
 
-        var vacinasReponse = pessoa.CardenetaVacina.Vacinas
-            .Select(v =>
-            {
-                var dosesResponse = v.Doses.Select(d => new ConsultaDoseAplicadaResponse(d.Id, d.NumeroDose, d.DataAplicacao)).ToArray();
+        var grupoVacinacao = pessoa.CardenetaVacina.Vacinacoes.GroupBy(x => x.VacinaId);
 
-                return new ConsultaVacinaResponse(v.Vacina.Id, v.Vacina.Nome, v.Vacina.QuantidadeDoses, v.Vacina.QuantidadeReforcos, dosesResponse);
-            });
+        var vacinasResponse = grupoVacinacao.Select(grupo =>
+        {
+            var dosesResponse = grupo
+                .Select(vacincacao => new ConsultaDoseAplicadaResponse(vacincacao.Id, vacincacao.NumeroDose, vacincacao.DataAplicacao))
+                .ToArray();
 
-        var cardeneta = new ConsultaCardenetaVacinaResponse(pessoa.CardenetaVacina.Id, vacinasReponse.ToArray());
+            var vacina = grupo.FirstOrDefault().Vacina;
+
+            return new ConsultaVacinaResponse(vacina.Id, vacina.Nome, vacina.QuantidadeDoses, vacina.QuantidadeReforcos, dosesResponse);
+        }).ToArray();
+
+        var cardeneta = new ConsultaCardenetaVacinaResponse(pessoa.CardenetaVacina.Id, vacinasResponse);
 
         var pessoaResponse = new ConsultarPessoaResponse(pessoa.Id, pessoa.Nome, cardeneta);
 
@@ -85,7 +90,7 @@ public class PessoaService : IPessoaService
         if (pessoa == null)
             return Result.Fail("Pessoa não encontrada.");
 
-        var doseDeletadaResult = pessoa.CardenetaVacina.DeletarDose(doseId);
+        var doseDeletadaResult = pessoa.CardenetaVacina.RemoverVacinacao(doseId);
 
         if (!doseDeletadaResult)
             return doseDeletadaResult;
