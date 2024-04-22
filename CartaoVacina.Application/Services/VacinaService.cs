@@ -22,6 +22,9 @@ public class VacinaService : IVacinaService
     {
         var vacinas = await _vacinaRepository.Listar();
 
+        if (!vacinas.Any())
+            return Result<ConsultaVacinaResponse[]>.Success(null);
+
         var vacinasReponse = vacinas
             .Select(x => new ConsultaVacinaResponse(x.Id, x.Nome, x.QuantidadeDoses, x.QuantidadeReforcos))
             .ToArray();
