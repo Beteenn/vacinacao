@@ -14,17 +14,17 @@ public sealed class VacinaCardenetaVacina : Entity
 
     private VacinaCardenetaVacina() { }
 
-    private VacinaCardenetaVacina(CardenetaVacina cardeneta, Vacina vacina)
+    private VacinaCardenetaVacina(CardenetaVacina cardeneta, long vacinaId)
     {
         Cardeneta = cardeneta;
-        Vacina = vacina;
+        VacinaId = vacinaId;
     }
 
-    public static VacinaCardenetaVacina Criar(CardenetaVacina cardeneta, Vacina vacina)
-        => new (cardeneta, vacina);
+    public static VacinaCardenetaVacina Criar(CardenetaVacina cardeneta, long vacinaId)
+        => new (cardeneta, vacinaId);
 
-    public static IEnumerable<VacinaCardenetaVacina> Criar(CardenetaVacina cardeneta, IEnumerable<Vacina> vacinas)
-        => vacinas.Select(vacina => new VacinaCardenetaVacina(cardeneta, vacina));
+    public static IEnumerable<VacinaCardenetaVacina> Criar(CardenetaVacina cardeneta, IEnumerable<long> vacinasId)
+        => vacinasId.Select(vacina => new VacinaCardenetaVacina(cardeneta, vacina));
 
     private Result ValidarAplicacao(int numeroDose)
     {

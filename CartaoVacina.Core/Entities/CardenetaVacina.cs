@@ -10,14 +10,14 @@ public sealed class CardenetaVacina : Entity
 
     private CardenetaVacina() { }
 
-    private CardenetaVacina(Pessoa pessoa, IEnumerable<Vacina> vacinas)
+    private CardenetaVacina(Pessoa pessoa, IEnumerable<long> vacinasId)
     {
         Pessoa = pessoa;
-        Vacinas = VacinaCardenetaVacina.Criar(this, vacinas).ToList();
+        Vacinas = VacinaCardenetaVacina.Criar(this, vacinasId).ToList();
     }
 
-    public static CardenetaVacina Criar(Pessoa pessoa, IEnumerable<Vacina> vacinas)
-        => new (pessoa, vacinas);
+    public static CardenetaVacina Criar(Pessoa pessoa, IEnumerable<long> vacinasId)
+        => new (pessoa, vacinasId);
 
     public Result AplicarDose(long vacinaId, int numeroDose, DateTime dataAplicacao)
     {

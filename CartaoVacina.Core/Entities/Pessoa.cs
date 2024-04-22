@@ -22,6 +22,6 @@ public class Pessoa : Entity
 
     private void AdicionarCardeneta(IEnumerable<Vacina> vacinas)
     {
-        CardenetaVacina = CardenetaVacina.Criar(this, vacinas);
+        CardenetaVacina = CardenetaVacina.Criar(this, vacinas.Select(x => x.Id).ToList());
     }
 }
