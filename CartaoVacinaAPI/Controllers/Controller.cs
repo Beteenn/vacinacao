@@ -12,5 +12,16 @@ namespace CartaoVacina.API.Controllers
 
             return Ok();
         }
+
+        protected IActionResult TratarResultado<T>(Result<T> result) where T : class
+        {
+            if (!result)
+                return BadRequest(result);
+
+            if (result.Value == null)
+                return NotFound();
+
+            return Ok(result.Value);
+        }
     }
 }

@@ -18,21 +18,25 @@ public class VacinaService : IVacinaService
         _pessoaRepository = pessoaRepository ?? throw new ArgumentNullException();
     }
 
-    public async Task<ConsultaVacinaResponse[]> Listar()
+    public async Task<Result<ConsultaVacinaResponse[]>> Listar()
     {
         var vacinas = await _vacinaRepository.Listar();
 
-        return vacinas
+        var vacinasReponse = vacinas
             .Select(x => new ConsultaVacinaResponse(x.Id, x.Nome, x.QuantidadeDoses, x.QuantidadeReforcos))
             .ToArray();
+
+        return Result<ConsultaVacinaResponse[]>.Success(vacinasReponse);
     }
 
-    public async Task Criar(CriarVacinaRequest request)
+    public async Task<Result> Criar(CriarVacinaRequest request)
     {
         var vacina = Vacina.Criar(request.Nome, request.QuantidadeDoses, request.QuantidadeReforcos);
 
         await _vacinaRepository.AddAsync(vacina);
         await _vacinaRepository.UnityOfWork.SaveChangesAsync();
+
+        return Result.Success;
     }
 
     public async Task<Result> AplicarDose(AplicarNovaDoseRequest request)

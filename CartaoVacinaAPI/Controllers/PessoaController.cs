@@ -8,7 +8,7 @@ namespace CartaoVacina.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PessoaController : ControllerBase
+public class PessoaController : Controller
 {
     private readonly IPessoaService _pessoaService;
 
@@ -22,9 +22,7 @@ public class PessoaController : ControllerBase
     [SwaggerOperation(Summary = "Listar pessoas cadastradas.")]
     public async Task<IActionResult> ListarPessoas()
     {
-        var resultado = await _pessoaService.ListarPessoas();
-
-        return Ok(resultado);
+        return TratarResultado(await _pessoaService.ListarPessoas());
     }
 
     [HttpPost]
@@ -32,8 +30,6 @@ public class PessoaController : ControllerBase
     [SwaggerOperation(Summary = "Cadastra uma nova pessoa.")]
     public async Task<IActionResult> CriarPessoa(CriarPessoaRequest request)
     {
-        await _pessoaService.CriarPessoa(request);
-
-        return Ok();
+        return TratarResultado(await _pessoaService.CriarPessoa(request));
     }
 }

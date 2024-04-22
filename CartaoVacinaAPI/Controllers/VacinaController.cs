@@ -23,9 +23,7 @@ public class VacinaController : Controller
     [SwaggerOperation(Summary = "Lista vacinas cadastradas.")]
     public async Task<IActionResult> ListarVacinas()
     {
-        var resultado = await _vacinaService.Listar();
-
-        return Ok(resultado);
+        return TratarResultado(await _vacinaService.Listar());
     }
 
     [HttpPost]
@@ -33,9 +31,7 @@ public class VacinaController : Controller
     [SwaggerOperation(Summary = "Cadastra uma nova vacina.")]
     public async Task<IActionResult> CriarVacina(CriarVacinaRequest request)
     {
-        await _vacinaService.Criar(request);
-
-        return Ok();
+        return TratarResultado(await _vacinaService.Criar(request));
     }
 
     [HttpPost("aplicar-dose")]

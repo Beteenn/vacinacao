@@ -4,6 +4,7 @@ using CartaoVacina.Core.Interfaces.Services;
 using CartaoVacina.Core.Models.Requests.Pessoa;
 using CartaoVacina.Core.Models.Responses.Pessoa;
 using CartaoVacina.Core.Models.Responses.Vacina;
+using CartaoVacina.Core.Results;
 using System.Linq;
 
 namespace CartaoVacina.Application.Services;
@@ -19,11 +20,11 @@ public class PessoaService : IPessoaService
         _vacinaRepository = vacinaRepository ?? throw new ArgumentNullException();
     }
 
-    public async Task<ConsultarPessoaResponse[]> ListarPessoas()
+    public async Task<Result<ConsultarPessoaResponse[]>> ListarPessoas()
     {
         var pessoas = await _pessoaRepository.ListarPessoas();
 
-        return pessoas.Select(pessoa =>
+        var pessoasResponse = pessoas.Select(pessoa =>
         {
             var vacinasReponse = pessoa.CardenetaVacina.Vacinas
                 .Select(v =>
@@ -37,9 +38,11 @@ public class PessoaService : IPessoaService
 
             return new ConsultarPessoaResponse(pessoa.Id, pessoa.Nome, cardeneta);
         }).ToArray();
+
+        return Result<ConsultarPessoaResponse[]>.Success(pessoasResponse);
     }
 
-    public async Task CriarPessoa(CriarPessoaRequest request)
+    public async Task<Result> CriarPessoa(CriarPessoaRequest request)
     {
         var vacinasCadastradas = await _vacinaRepository.Listar();
 
@@ -47,5 +50,7 @@ public class PessoaService : IPessoaService
 
         await _pessoaRepository.AddAsync(pessoa);
         await _pessoaRepository.UnityOfWork.SaveChangesAsync();
+
+        return Result.Success;
     }
 }
