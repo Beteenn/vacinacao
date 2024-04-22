@@ -5,7 +5,6 @@ using CartaoVacina.Core.Models.Requests.Pessoa;
 using CartaoVacina.Core.Models.Responses.Pessoa;
 using CartaoVacina.Core.Models.Responses.Vacina;
 using CartaoVacina.Core.Results;
-using System.Linq;
 
 namespace CartaoVacina.Application.Services;
 
@@ -20,26 +19,16 @@ public class PessoaService : IPessoaService
         _vacinaRepository = vacinaRepository ?? throw new ArgumentNullException();
     }
 
-    public async Task<Result<ConsultarPessoaResponse[]>> ListarPessoas()
+    public async Task<Result<ConsultarPessoaSimplificadaResponse[]>> ListarPessoas()
     {
         var pessoas = await _pessoaRepository.ListarPessoas();
 
-        var pessoasResponse = pessoas.Select(pessoa =>
-        {
-            var vacinasReponse = pessoa.CardenetaVacina.Vacinas
-                .Select(v =>
-                {
-                    var dosesResponse = v.Doses.Select(d => new ConsultaDoseAplicadaResponse(d.NumeroDose, d.DataAplicacao)).ToArray();
+        if (!pessoas.Any())
+            return Result < ConsultarPessoaSimplificadaResponse[] >.Success(null);
 
-                    return new ConsultaVacinaResponse(v.Vacina.Id, v.Vacina.Nome, v.Vacina.QuantidadeDoses, v.Vacina.QuantidadeReforcos, dosesResponse);
-                });
+        var pessoasResponse = pessoas.Select(pessoa => new ConsultarPessoaSimplificadaResponse(pessoa.Id, pessoa.Nome)).ToArray();
 
-            var cardeneta = new ConsultaCardenetaVacinaResponse(pessoa.CardenetaVacina.Id, vacinasReponse.ToArray());
-
-            return new ConsultarPessoaResponse(pessoa.Id, pessoa.Nome, cardeneta);
-        }).ToArray();
-
-        return Result<ConsultarPessoaResponse[]>.Success(pessoasResponse);
+        return Result<ConsultarPessoaSimplificadaResponse[]>.Success(pessoasResponse);
     }
 
     public async Task<Result> CriarPessoa(CriarPessoaRequest request)

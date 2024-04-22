@@ -18,7 +18,8 @@ public class PessoaController : Controller
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(ConsultarPessoaResponse[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ConsultarPessoaSimplificadaResponse[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(Summary = "Listar pessoas cadastradas.")]
     public async Task<IActionResult> ListarPessoas()
     {
@@ -27,6 +28,7 @@ public class PessoaController : Controller
 
     [HttpGet("cardeneta/{pessoaId}")]
     [ProducesResponseType(typeof(ConsultarPessoaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(Summary = "Obter caderneta por pessoa.")]
     public async Task<IActionResult> ObterCardenetaPorPessoaId(long pessoaId)
     {

@@ -6,7 +6,7 @@ namespace CartaoVacina.Core.Interfaces.Services;
 
 public interface IPessoaService
 {
-    Task<Result<ConsultarPessoaResponse[]>> ListarPessoas();
+    Task<Result<ConsultarPessoaSimplificadaResponse[]>> ListarPessoas();
     Task<Result> CriarPessoa(CriarPessoaRequest request);
     Task<Result<ConsultarPessoaResponse>> ObterCardenetaPorPessoaId(long pessoaId);
 }
