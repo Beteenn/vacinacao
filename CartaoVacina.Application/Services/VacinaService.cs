@@ -18,18 +18,18 @@ public class VacinaService : IVacinaService
         _pessoaRepository = pessoaRepository ?? throw new ArgumentNullException();
     }
 
-    public async Task<Result<ConsultaVacinaResponse[]>> Listar()
+    public async Task<Result<ConsultaVacinaSimplificadaResponse[]>> Listar()
     {
         var vacinas = await _vacinaRepository.Listar();
 
         if (!vacinas.Any())
-            return Result<ConsultaVacinaResponse[]>.Success(null);
+            return Result<ConsultaVacinaSimplificadaResponse[]>.Success(null);
 
         var vacinasReponse = vacinas
-            .Select(x => new ConsultaVacinaResponse(x.Id, x.Nome, x.QuantidadeDoses, x.QuantidadeReforcos))
+            .Select(x => new ConsultaVacinaSimplificadaResponse(x.Id, x.Nome, x.QuantidadeDoses, x.QuantidadeReforcos))
             .ToArray();
 
-        return Result<ConsultaVacinaResponse[]>.Success(vacinasReponse);
+        return Result<ConsultaVacinaSimplificadaResponse[]>.Success(vacinasReponse);
     }
 
     public async Task<Result> Criar(CriarVacinaRequest request)

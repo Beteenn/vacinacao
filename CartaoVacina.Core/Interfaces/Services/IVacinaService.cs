@@ -6,7 +6,7 @@ namespace CartaoVacina.Core.Interfaces.Services;
 
 public interface IVacinaService
 {
-    Task<Result<ConsultaVacinaResponse[]>> Listar();
+    Task<Result<ConsultaVacinaSimplificadaResponse[]>> Listar();
     Task<Result> Criar(CriarVacinaRequest request);
     Task<Result> AplicarDose(AplicarNovaDoseRequest request);
 }

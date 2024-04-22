@@ -21,7 +21,7 @@ public class VacinaController : Controller
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(ConsultaVacinaResponse[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ConsultaVacinaSimplificadaResponse[]), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(Summary = "Lista vacinas cadastradas.")]
     public async Task<IActionResult> ListarVacinas()
