@@ -52,6 +52,6 @@ public class VacinaService : IVacinaService
         await _pessoaRepository.UpdateAsync(pessoa);
         await _pessoaRepository.UnityOfWork.SaveChangesAsync();
 
-        return doseAplicada;
+        return doseAplicadaResult;
     }
 }
