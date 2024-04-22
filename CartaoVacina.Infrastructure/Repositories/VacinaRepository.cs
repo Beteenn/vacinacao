@@ -11,6 +11,6 @@ public class VacinaRepository : Repository<Vacina>, IVacinaRepository
 
     public async Task<IEnumerable<Vacina>> Listar()
     {
-        return await _context.Vacinas.ToListAsync();
+        return await _context.Vacinas.AsNoTracking().ToListAsync();
     }
 }
