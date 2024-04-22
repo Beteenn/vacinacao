@@ -1,5 +1,4 @@
-﻿using CartaoVacina.Application.Services;
-using CartaoVacina.Core.Interfaces.Services;
+﻿using CartaoVacina.Core.Interfaces.Services;
 using CartaoVacina.Core.Models.Requests.Pessoa;
 using CartaoVacina.Core.Models.Responses.Pessoa;
 using CartaoVacina.Core.Results;

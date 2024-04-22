@@ -2,7 +2,7 @@ using CartaoVacina.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona contexto do banco de dados
+// Configura dependencias
 builder.Services.ConfigureDependencies(builder.Configuration);
 
 builder.Services.AddControllers();
