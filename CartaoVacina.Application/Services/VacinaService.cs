@@ -54,9 +54,9 @@ public class VacinaService : IVacinaService
         if (vacina == null)
             return Result.Fail("Vacina não encontrada.");
 
-        var carteneta = pessoa.CardenetaVacina;
+        var caderneta = pessoa.CadernetaVacina;
 
-        var doseAplicadaResult = carteneta.AdicionarVacinacao(vacina, request.NumeroDose, request.DataAplicacao);
+        var doseAplicadaResult = caderneta.AdicionarVacinacao(vacina, request.NumeroDose, request.DataAplicacao);
 
         if (!doseAplicadaResult)
             return doseAplicadaResult;

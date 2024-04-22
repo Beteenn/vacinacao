@@ -43,14 +43,14 @@ public class PessoaService : IPessoaService
         return Result.Success;
     }
 
-    public async Task<Result<ConsultarPessoaResponse>> ObterCardenetaPorPessoaId(long pessoaId)
+    public async Task<Result<ConsultarPessoaResponse>> ObterCadernetaPorPessoaId(long pessoaId)
     {
         var pessoa = await _pessoaRepository.ObterPorId(pessoaId);
 
         if (pessoa == null)
             return Result<ConsultarPessoaResponse>.Success(null);
 
-        var grupoVacinacao = pessoa.CardenetaVacina.Vacinacoes.GroupBy(x => x.VacinaId);
+        var grupoVacinacao = pessoa.CadernetaVacina.Vacinacoes.GroupBy(x => x.VacinaId);
 
         var vacinasResponse = grupoVacinacao.Select(grupo =>
         {
@@ -63,9 +63,9 @@ public class PessoaService : IPessoaService
             return new ConsultaVacinaResponse(vacina.Id, vacina.Nome, vacina.QuantidadeDoses, vacina.QuantidadeReforcos, dosesResponse);
         }).ToArray();
 
-        var cardeneta = new ConsultaCardenetaVacinaResponse(pessoa.CardenetaVacina.Id, vacinasResponse);
+        var caderneta = new ConsultaCadernetaVacinaResponse(pessoa.CadernetaVacina.Id, vacinasResponse);
 
-        var pessoaResponse = new ConsultarPessoaResponse(pessoa.Id, pessoa.Nome, cardeneta);
+        var pessoaResponse = new ConsultarPessoaResponse(pessoa.Id, pessoa.Nome, caderneta);
 
         return Result<ConsultarPessoaResponse>.Success(pessoaResponse);
     }
@@ -90,7 +90,7 @@ public class PessoaService : IPessoaService
         if (pessoa == null)
             return Result.Fail("Pessoa não encontrada.");
 
-        var doseDeletadaResult = pessoa.CardenetaVacina.RemoverVacinacao(doseId);
+        var doseDeletadaResult = pessoa.CadernetaVacina.RemoverVacinacao(doseId);
 
         if (!doseDeletadaResult)
             return doseDeletadaResult;

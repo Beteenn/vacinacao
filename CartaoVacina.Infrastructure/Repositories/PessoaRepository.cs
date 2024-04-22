@@ -13,7 +13,7 @@ public sealed class PessoaRepository : Repository<Pessoa>, IPessoaRepository
     public async Task<Pessoa> ObterPorId(long pessoaId)
     {
         return await _context.Pessoas
-            .Include(p => p.CardenetaVacina)
+            .Include(p => p.CadernetaVacina)
                 .ThenInclude(c => c.Vacinacoes)
                     .ThenInclude(v => v.Vacina)
             .FirstOrDefaultAsync(p => p.Id == pessoaId);
@@ -22,7 +22,7 @@ public sealed class PessoaRepository : Repository<Pessoa>, IPessoaRepository
     public async Task<IEnumerable<Pessoa>> ListarPessoas()
     {
         return await _context.Pessoas
-            .Include(p => p.CardenetaVacina)
+            .Include(p => p.CadernetaVacina)
             .AsNoTracking()
             .ToListAsync();
     }

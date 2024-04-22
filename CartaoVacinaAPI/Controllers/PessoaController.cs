@@ -29,13 +29,13 @@ public class PessoaController : Controller
         return TratarResultado(await _pessoaService.ListarPessoas());
     }
 
-    [HttpGet("cardeneta/{pessoaId}")]
+    [HttpGet("caderneta/{pessoaId}")]
     [ProducesResponseType(typeof(ConsultarPessoaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(Summary = "Obter caderneta por pessoa.")]
-    public async Task<IActionResult> ObterCardenetaPorPessoaId(long pessoaId)
+    public async Task<IActionResult> ObterCadernetaPorPessoaId(long pessoaId)
     {
-        return TratarResultado(await _pessoaService.ObterCardenetaPorPessoaId(pessoaId));
+        return TratarResultado(await _pessoaService.ObterCadernetaPorPessoaId(pessoaId));
     }
 
     [HttpPost]
