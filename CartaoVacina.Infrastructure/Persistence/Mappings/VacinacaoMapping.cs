@@ -4,13 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CartaoVacina.DataAccess.Persistence.Mappings;
 
-public sealed class VacinaCardenetaVacinaMapping : EntityMapping<VacinaCardenetaVacina>
+public sealed class VacinacaoMapping : EntityMapping<Vacinacao>
 {
-    public override void Configure(EntityTypeBuilder<VacinaCardenetaVacina> builder)
+    public override void Configure(EntityTypeBuilder<Vacinacao> builder)
     {
         base.Configure(builder);
 
-        builder.ToTable(nameof(VacinaCardenetaVacina));
+        builder.ToTable(nameof(Vacinacao));
+
+        builder.Property(d => d.NumeroDose)
+            .IsRequired();
+
+        builder.Property(d => d.DataAplicacao)
+            .IsRequired();
 
         builder.HasOne(x => x.Vacina)
             .WithMany()
@@ -18,7 +24,7 @@ public sealed class VacinaCardenetaVacinaMapping : EntityMapping<VacinaCardeneta
             .IsRequired();
 
         builder.HasOne(v => v.Cardeneta)
-            .WithMany(c => c.Vacinas)
+            .WithMany(c => c.Vacinacoes)
             .HasForeignKey(v => v.CardenetaId)
             .IsRequired();
     }

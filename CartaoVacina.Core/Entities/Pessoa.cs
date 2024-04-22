@@ -10,18 +10,9 @@ public class Pessoa : Entity
     private Pessoa(string nome) : base()
     {
         Nome = nome;
+        CardenetaVacina = CardenetaVacina.Criar(this);
     }
 
     public static Pessoa Criar(string nome, IEnumerable<Vacina> vacinas)
-    {
-        var pessoa = new Pessoa(nome);
-        pessoa.AdicionarCardeneta(vacinas);
-
-        return pessoa;
-    }
-
-    private void AdicionarCardeneta(IEnumerable<Vacina> vacinas)
-    {
-        CardenetaVacina = CardenetaVacina.Criar(this, vacinas.Select(x => x.Id).ToList());
-    }
+        =>new (nome);
 }
