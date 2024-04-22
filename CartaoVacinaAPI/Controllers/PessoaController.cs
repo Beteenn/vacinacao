@@ -4,10 +4,12 @@ using CartaoVacina.Core.Models.Responses.Pessoa;
 using CartaoVacina.Core.Results;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 namespace CartaoVacina.API.Controllers;
 
 [Route("api/[controller]")]
+[Produces(MediaTypeNames.Application.Json)]
 [ApiController]
 public class PessoaController : Controller
 {
