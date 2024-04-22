@@ -53,7 +53,7 @@ public class PessoaService : IPessoaService
         var vacinasReponse = pessoa.CardenetaVacina.Vacinas
             .Select(v =>
             {
-                var dosesResponse = v.Doses.Select(d => new ConsultaDoseAplicadaResponse(d.NumeroDose, d.DataAplicacao)).ToArray();
+                var dosesResponse = v.Doses.Select(d => new ConsultaDoseAplicadaResponse(d.Id, d.NumeroDose, d.DataAplicacao)).ToArray();
 
                 return new ConsultaVacinaResponse(v.Vacina.Id, v.Vacina.Nome, v.Vacina.QuantidadeDoses, v.Vacina.QuantidadeReforcos, dosesResponse);
             });
@@ -73,6 +73,24 @@ public class PessoaService : IPessoaService
             return Result.Fail("Pessoa não encontrada");
 
         await _pessoaRepository.DeleteAsync(pessoa);
+        await _pessoaRepository.UnityOfWork.SaveChangesAsync();
+
+        return Result.Success;
+    }
+
+    public async Task<Result> DeletarDose(long pessoaId, long doseId)
+    {
+        var pessoa = await _pessoaRepository.ObterPorId(pessoaId);
+
+        if (pessoa == null)
+            return Result.Fail("Pessoa não encontrada.");
+
+        var doseDeletadaResult = pessoa.CardenetaVacina.DeletarDose(doseId);
+
+        if (!doseDeletadaResult)
+            return doseDeletadaResult;
+
+        await _pessoaRepository.UpdateAsync(pessoa);
         await _pessoaRepository.UnityOfWork.SaveChangesAsync();
 
         return Result.Success;

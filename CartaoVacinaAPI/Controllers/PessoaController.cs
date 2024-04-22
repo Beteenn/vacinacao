@@ -1,4 +1,5 @@
-﻿using CartaoVacina.Core.Interfaces.Services;
+﻿using CartaoVacina.Application.Services;
+using CartaoVacina.Core.Interfaces.Services;
 using CartaoVacina.Core.Models.Requests.Pessoa;
 using CartaoVacina.Core.Models.Responses.Pessoa;
 using CartaoVacina.Core.Results;
@@ -51,5 +52,14 @@ public class PessoaController : Controller
     public async Task<IActionResult> DeletarPessoa(long pessoaId)
     {
         return TratarResultado(await _pessoaService.DeletarPessoa(pessoaId));
+    }
+
+    [HttpDelete("{pessoaId}/dose/{doseId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+    [SwaggerOperation(Summary = "Deletar uma dose aplicada.")]
+    public async Task<IActionResult> DeletarDose(long pessoaId, long doseId)
+    {
+        return TratarResultado(await _pessoaService.DeletarDose(pessoaId, doseId));
     }
 }

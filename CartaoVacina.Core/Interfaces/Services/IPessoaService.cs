@@ -10,4 +10,5 @@ public interface IPessoaService
     Task<Result> CriarPessoa(CriarPessoaRequest request);
     Task<Result<ConsultarPessoaResponse>> ObterCardenetaPorPessoaId(long pessoaId);
     Task<Result> DeletarPessoa(long pessoaId);
+    Task<Result> DeletarDose(long pessoaId, long doseId);
 }

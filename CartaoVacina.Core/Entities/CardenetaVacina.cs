@@ -30,4 +30,17 @@ public sealed class CardenetaVacina : Entity
 
         return doseAplicada;
     }
+
+    public Result DeletarDose(long doseId)
+    {
+        var vacina = Vacinas.FirstOrDefault(v => v.Doses.Any(d => d.Id == doseId));
+
+        if (vacina == null)
+            return Result.Fail("Dose não encontrada.");
+
+        var dose = vacina.Doses.FirstOrDefault(x => x.Id == doseId);
+        vacina.Doses.Remove(dose);
+
+        return Result.Success;
+    }
 }
