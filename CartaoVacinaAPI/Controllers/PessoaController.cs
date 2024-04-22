@@ -25,6 +25,14 @@ public class PessoaController : Controller
         return TratarResultado(await _pessoaService.ListarPessoas());
     }
 
+    [HttpGet("cardeneta/{pessoaId}")]
+    [ProducesResponseType(typeof(ConsultarPessoaResponse), StatusCodes.Status200OK)]
+    [SwaggerOperation(Summary = "Obter caderneta por pessoa.")]
+    public async Task<IActionResult> ObterCardenetaPorPessoaId(long pessoaId)
+    {
+        return TratarResultado(await _pessoaService.ObterCardenetaPorPessoaId(pessoaId));
+    }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [SwaggerOperation(Summary = "Cadastra uma nova pessoa.")]

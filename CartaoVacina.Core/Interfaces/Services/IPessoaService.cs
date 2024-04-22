@@ -8,4 +8,5 @@ public interface IPessoaService
 {
     Task<Result<ConsultarPessoaResponse[]>> ListarPessoas();
     Task<Result> CriarPessoa(CriarPessoaRequest request);
+    Task<Result<ConsultarPessoaResponse>> ObterCardenetaPorPessoaId(long pessoaId);
 }

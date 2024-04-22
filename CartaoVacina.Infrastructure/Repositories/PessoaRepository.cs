@@ -16,6 +16,8 @@ public sealed class PessoaRepository : Repository<Pessoa>, IPessoaRepository
             .Include(p => p.CardenetaVacina)
                 .ThenInclude(c => c.Vacinas)
                             .ThenInclude(c => c.Vacina)
+            .Include(p => p.CardenetaVacina.Vacinas)
+                .ThenInclude(c => c.Doses)
             .FirstOrDefaultAsync(p => p.Id == pessoaId);
     }
 

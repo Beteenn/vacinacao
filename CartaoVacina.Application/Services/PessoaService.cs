@@ -53,4 +53,26 @@ public class PessoaService : IPessoaService
 
         return Result.Success;
     }
+
+    public async Task<Result<ConsultarPessoaResponse>> ObterCardenetaPorPessoaId(long pessoaId)
+    {
+        var pessoa = await _pessoaRepository.ObterPorId(pessoaId);
+
+        if (pessoa == null)
+            return Result<ConsultarPessoaResponse>.Success(null);
+
+        var vacinasReponse = pessoa.CardenetaVacina.Vacinas
+            .Select(v =>
+            {
+                var dosesResponse = v.Doses.Select(d => new ConsultaDoseAplicadaResponse(d.NumeroDose, d.DataAplicacao)).ToArray();
+
+                return new ConsultaVacinaResponse(v.Vacina.Id, v.Vacina.Nome, v.Vacina.QuantidadeDoses, v.Vacina.QuantidadeReforcos, dosesResponse);
+            });
+
+        var cardeneta = new ConsultaCardenetaVacinaResponse(pessoa.CardenetaVacina.Id, vacinasReponse.ToArray());
+
+        var pessoaResponse = new ConsultarPessoaResponse(pessoa.Id, pessoa.Nome, cardeneta);
+
+        return Result<ConsultarPessoaResponse>.Success(pessoaResponse);
+    }
 }
