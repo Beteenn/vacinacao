@@ -1,6 +1,7 @@
 ﻿using CartaoVacina.Core.Interfaces.Services;
 using CartaoVacina.Core.Models.Requests.Pessoa;
 using CartaoVacina.Core.Models.Responses.Pessoa;
+using CartaoVacina.Core.Results;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -41,5 +42,14 @@ public class PessoaController : Controller
     public async Task<IActionResult> CriarPessoa(CriarPessoaRequest request)
     {
         return TratarResultado(await _pessoaService.CriarPessoa(request));
+    }
+
+    [HttpDelete("{pessoaId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result), StatusCodes.Status400BadRequest)]
+    [SwaggerOperation(Summary = "Deletar uma pessoa.")]
+    public async Task<IActionResult> DeletarPessoa(long pessoaId)
+    {
+        return TratarResultado(await _pessoaService.DeletarPessoa(pessoaId));
     }
 }

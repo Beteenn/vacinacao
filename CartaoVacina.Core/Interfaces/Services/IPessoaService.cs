@@ -9,4 +9,5 @@ public interface IPessoaService
     Task<Result<ConsultarPessoaSimplificadaResponse[]>> ListarPessoas();
     Task<Result> CriarPessoa(CriarPessoaRequest request);
     Task<Result<ConsultarPessoaResponse>> ObterCardenetaPorPessoaId(long pessoaId);
+    Task<Result> DeletarPessoa(long pessoaId);
 }

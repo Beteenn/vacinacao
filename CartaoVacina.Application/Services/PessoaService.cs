@@ -64,4 +64,17 @@ public class PessoaService : IPessoaService
 
         return Result<ConsultarPessoaResponse>.Success(pessoaResponse);
     }
+
+    public async Task<Result> DeletarPessoa(long pessoaId)
+    {
+        var pessoa = await _pessoaRepository.ObterPorId(pessoaId);
+
+        if (pessoa == null)
+            return Result.Fail("Pessoa não encontrada");
+
+        await _pessoaRepository.DeleteAsync(pessoa);
+        await _pessoaRepository.UnityOfWork.SaveChangesAsync();
+
+        return Result.Success;
+    }
 }
