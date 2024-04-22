@@ -2,8 +2,8 @@
 
 public sealed class Vacinacao : Entity
 {
-    public CardenetaVacina Cardeneta { get; private set; }
-    public long CardenetaId { get; private set; }
+    public CadernetaVacina Caderneta { get; private set; }
+    public long CadernetaId { get; private set; }
     public Vacina Vacina { get; private set; }
     public long VacinaId { get; private set; }
     public DateTime DataAplicacao { get; private set; }

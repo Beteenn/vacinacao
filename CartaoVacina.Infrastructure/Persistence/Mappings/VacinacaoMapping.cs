@@ -23,9 +23,9 @@ public sealed class VacinacaoMapping : EntityMapping<Vacinacao>
             .HasForeignKey(x => x.VacinaId)
             .IsRequired();
 
-        builder.HasOne(v => v.Cardeneta)
+        builder.HasOne(v => v.Caderneta)
             .WithMany(c => c.Vacinacoes)
-            .HasForeignKey(v => v.CardenetaId)
+            .HasForeignKey(v => v.CadernetaId)
             .IsRequired();
     }
 }
