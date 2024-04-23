@@ -1,6 +1,4 @@
-using CartaoVacina.DataAccess.Persistence;
 using CartaoVacina.IoC;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
