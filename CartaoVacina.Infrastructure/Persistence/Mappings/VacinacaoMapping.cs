@@ -1,4 +1,5 @@
 ﻿using CartaoVacina.Core.Entities;
+using CartaoVacina.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -26,6 +27,10 @@ public sealed class VacinacaoMapping : EntityMapping<Vacinacao>
         builder.HasOne(v => v.Caderneta)
             .WithMany(c => c.Vacinacoes)
             .HasForeignKey(v => v.CadernetaId)
+            .IsRequired();
+
+        builder.Property(x => x.TipoDose)
+            .HasDefaultValue(TipoDose.Comum)
             .IsRequired();
     }
 }
