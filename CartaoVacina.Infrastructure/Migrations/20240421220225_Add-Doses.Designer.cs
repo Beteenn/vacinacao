@@ -4,6 +4,7 @@ using CartaoVacina.DataAccess.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CartaoVacina.DataAccess.Migrations
 {
     [DbContext(typeof(CartaoVacinaContext))]
-    partial class CartaoVacinaContextModelSnapshot : ModelSnapshot
+    [Migration("20240421220225_Add-Doses")]
+    partial class AddDoses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace CartaoVacina.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CartaoVacina.Core.Entities.CadernetaVacina", b =>
+            modelBuilder.Entity("CartaoVacina.Core.Entities.CardenetaVacina", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +46,36 @@ namespace CartaoVacina.DataAccess.Migrations
                     b.HasIndex("PessoaId")
                         .IsUnique();
 
-                    b.ToTable("CadernetaVacina", (string)null);
+                    b.ToTable("CardenetaVacina", (string)null);
+                });
+
+            modelBuilder.Entity("CartaoVacina.Core.Entities.DoseVacinaCardeneta", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CardenetaVacinaId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime>("DataAplicacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumeroDose")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardenetaVacinaId");
+
+                    b.ToTable("DoseVacinaCardeneta", (string)null);
                 });
 
             modelBuilder.Entity("CartaoVacina.Core.Entities.Pessoa", b =>
@@ -98,7 +130,7 @@ namespace CartaoVacina.DataAccess.Migrations
                     b.ToTable("Vacina", (string)null);
                 });
 
-            modelBuilder.Entity("CartaoVacina.Core.Entities.Vacinacao", b =>
+            modelBuilder.Entity("CartaoVacina.Core.Entities.VacinaCardenetaVacina", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +138,7 @@ namespace CartaoVacina.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CadernetaId")
+                    b.Property<long>("CardenetaId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CriadoEm")
@@ -114,45 +146,45 @@ namespace CartaoVacina.DataAccess.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("DataAplicacao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NumeroDose")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TipoDose")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
                     b.Property<long>("VacinaId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CadernetaId");
+                    b.HasIndex("CardenetaId");
 
                     b.HasIndex("VacinaId");
 
-                    b.ToTable("Vacinacao", (string)null);
+                    b.ToTable("VacinaCardenetaVacina", (string)null);
                 });
 
-            modelBuilder.Entity("CartaoVacina.Core.Entities.CadernetaVacina", b =>
+            modelBuilder.Entity("CartaoVacina.Core.Entities.CardenetaVacina", b =>
                 {
                     b.HasOne("CartaoVacina.Core.Entities.Pessoa", "Pessoa")
-                        .WithOne("CadernetaVacina")
-                        .HasForeignKey("CartaoVacina.Core.Entities.CadernetaVacina", "PessoaId")
+                        .WithOne("CardenetaVacina")
+                        .HasForeignKey("CartaoVacina.Core.Entities.CardenetaVacina", "PessoaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pessoa");
                 });
 
-            modelBuilder.Entity("CartaoVacina.Core.Entities.Vacinacao", b =>
+            modelBuilder.Entity("CartaoVacina.Core.Entities.DoseVacinaCardeneta", b =>
                 {
-                    b.HasOne("CartaoVacina.Core.Entities.CadernetaVacina", "Caderneta")
-                        .WithMany("Vacinacoes")
-                        .HasForeignKey("CadernetaId")
+                    b.HasOne("CartaoVacina.Core.Entities.VacinaCardenetaVacina", "CardenetaVacina")
+                        .WithMany("Doses")
+                        .HasForeignKey("CardenetaVacinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CardenetaVacina");
+                });
+
+            modelBuilder.Entity("CartaoVacina.Core.Entities.VacinaCardenetaVacina", b =>
+                {
+                    b.HasOne("CartaoVacina.Core.Entities.CardenetaVacina", "Cardeneta")
+                        .WithMany("Vacinas")
+                        .HasForeignKey("CardenetaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -162,20 +194,25 @@ namespace CartaoVacina.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Caderneta");
+                    b.Navigation("Cardeneta");
 
                     b.Navigation("Vacina");
                 });
 
-            modelBuilder.Entity("CartaoVacina.Core.Entities.CadernetaVacina", b =>
+            modelBuilder.Entity("CartaoVacina.Core.Entities.CardenetaVacina", b =>
                 {
-                    b.Navigation("Vacinacoes");
+                    b.Navigation("Vacinas");
                 });
 
             modelBuilder.Entity("CartaoVacina.Core.Entities.Pessoa", b =>
                 {
-                    b.Navigation("CadernetaVacina")
+                    b.Navigation("CardenetaVacina")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CartaoVacina.Core.Entities.VacinaCardenetaVacina", b =>
+                {
+                    b.Navigation("Doses");
                 });
 #pragma warning restore 612, 618
         }

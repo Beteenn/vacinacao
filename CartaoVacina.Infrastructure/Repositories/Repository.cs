@@ -8,24 +8,19 @@ public class Repository<T> : IRepository<T> where T : Entity
 {
     protected CartaoVacinaContext _context;
 
+    public IUnitOfWork UnityOfWork => _context;
+
     public Repository(CartaoVacinaContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException();
     }
 
     public async Task AddAsync(T entidade)
-    {
-        await _context.AddAsync(entidade);
-        await _context.SaveChangesAsync();
-    }
+        => await _context.AddAsync(entidade);
 
     public async Task UpdateAsync(T entidade)
-    {
-        await Task.Run(() => _context.Update(entidade));
-    }
+        => await Task.Run(() => _context.Update(entidade));
 
     public async Task DeleteAsync(T entidade)
-    {
-        await Task.Run(() => _context.Remove(entidade));
-    }
+        => await Task.Run(() => _context.Remove(entidade));
 }

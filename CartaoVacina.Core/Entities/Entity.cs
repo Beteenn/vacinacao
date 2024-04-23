@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace CartaoVacina.Core.Entities;
+﻿namespace CartaoVacina.Core.Entities;
 
 public abstract class Entity
 {
