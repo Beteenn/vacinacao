@@ -5,6 +5,7 @@ using CartaoVacina.Core.Models.Requests.Pessoa;
 using CartaoVacina.Core.Models.Responses.Pessoa;
 using CartaoVacina.Core.Models.Responses.Vacina;
 using CartaoVacina.Core.Results;
+using System.Linq;
 
 namespace CartaoVacina.Application.Services;
 
@@ -54,13 +55,20 @@ public class PessoaService : IPessoaService
 
         var vacinasResponse = grupoVacinacao.Select(grupo =>
         {
-            var dosesResponse = grupo
-                .Select(vacincacao => new ConsultaDoseAplicadaResponse(vacincacao.Id, vacincacao.NumeroDose, vacincacao.DataAplicacao))
+            var doses = grupo.Where(x => x.TipoDose == Core.Enums.TipoDose.Comum);
+
+            var dosesResponse = doses
+                .Select(vacinacao => new ConsultaDoseAplicadaResponse(vacinacao.Id, vacinacao.NumeroDose, vacinacao.DataAplicacao))
+                .ToArray();
+
+            var reforco = grupo.Where(x => x.TipoDose == Core.Enums.TipoDose.Reforco);
+            var reforcoResponse = reforco
+                .Select(vacinacao => new ConsultaDoseAplicadaResponse(vacinacao.Id, vacinacao.NumeroDose, vacinacao.DataAplicacao))
                 .ToArray();
 
             var vacina = grupo.FirstOrDefault().Vacina;
 
-            return new ConsultaVacinaResponse(vacina.Id, vacina.Nome, vacina.QuantidadeDoses, vacina.QuantidadeReforcos, dosesResponse);
+            return new ConsultaVacinaResponse(vacina.Id, vacina.Nome, vacina.QuantidadeDoses, vacina.QuantidadeReforcos, dosesResponse, reforcoResponse);
         }).ToArray();
 
         var caderneta = new ConsultaCadernetaVacinaResponse(pessoa.CadernetaVacina.Id, vacinasResponse);

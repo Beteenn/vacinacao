@@ -1,4 +1,5 @@
-﻿using CartaoVacina.Core.Results;
+﻿using CartaoVacina.Core.Enums;
+using CartaoVacina.Core.Results;
 
 namespace CartaoVacina.Core.Entities;
 
@@ -18,8 +19,8 @@ public sealed class CadernetaVacina : Entity
     public static CadernetaVacina Criar(Pessoa pessoa)
         => new (pessoa);
 
-    public Result AdicionarVacinacao(Vacina vacina, int numeroDose, DateTime dataAplicacao)
-        => Vacinacoes.AdicionarVacinacao(vacina, numeroDose, dataAplicacao);
+    public Result AdicionarVacinacao(Vacina vacina, int numeroDose, DateTime dataAplicacao, TipoDose tipoDose)
+        => Vacinacoes.AdicionarVacinacao(vacina, numeroDose, dataAplicacao, tipoDose);
 
     public Result RemoverVacinacao(long vacinacaoId)
         => Vacinacoes.RemoverVacinacao(vacinacaoId);

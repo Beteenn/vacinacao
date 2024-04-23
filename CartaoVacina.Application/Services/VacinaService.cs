@@ -56,7 +56,7 @@ public class VacinaService : IVacinaService
 
         var caderneta = pessoa.CadernetaVacina;
 
-        var doseAplicadaResult = caderneta.AdicionarVacinacao(vacina, request.NumeroDose, request.DataAplicacao);
+        var doseAplicadaResult = caderneta.AdicionarVacinacao(vacina, request.NumeroDose, request.DataAplicacao, request.Tipo);
 
         if (!doseAplicadaResult)
             return doseAplicadaResult;
