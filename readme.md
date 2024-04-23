@@ -28,3 +28,12 @@ As doses estao divididas em 2 tipos:
 - 2 -> Reforco
 
 Para receber uma dose de reforco a pessoa deve ter recebido todas as doses comuns.
+
+
+# Proximos passos
+
+- Adicionar paginacao na listagem de vacinas e pessoas;
+- Adicionar AutoMapper ou centralizar mapeamentos de Entidades para Responses;
+- Adicionar Logs;
+- Adicionar Autenticacao;
+- Se uma pessoa puder possuir mais de uma cardeneta, ajustar entidades.
