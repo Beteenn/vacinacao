@@ -25,6 +25,9 @@ public class ValidadorDoseReforco : IValidadorDose
     {
         var vacinacao = vacinacoes.ObterUltimaVacinacaoPorTipoEId(vacina.Id);
 
+        if (vacinacao == null)
+            return Result.Fail("Há doses faltantes para esta vacina.");
+
         if (vacinacao.NumeroDose < vacinacao.Vacina.QuantidadeDoses)
             return Result.Fail("Há doses faltantes para esta vacina.");
 
